@@ -174,28 +174,6 @@
             50% { transform: translateX(-50%) translateY(10px); }
         }
 
-        /* Music Button */
-        .music-btn {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: #fff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            z-index: 100;
-        }
-
-        .music-btn:hover {
-            background: rgba(0, 0, 0, 0.7);
-            transform: scale(1.1);
-        }
-
         /* Content Section */
         .content {
             background: #111;
@@ -335,7 +313,7 @@
     </style>
 </head>
 <body>
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop autoplay>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
@@ -430,24 +408,6 @@
         <p>$DRONE 2025 · the truth is out there · trust no one</p>
     </footer>
 
-    <!-- Music Button -->
-    <button class="music-btn" id="musicBtn">🔇</button>
-
-    <script>
-        const music = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicBtn');
-        let playing = false;
-
-        btn.onclick = () => {
-            if (playing) {
-                music.pause();
-                btn.textContent = '🔇';
-            } else {
-                music.play();
-                btn.textContent = '🔊';
-            }
-            playing = !playing;
-        };
-    </script>
+    
 </body>
 </html>
