@@ -125,39 +125,11 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #6a6a6a 0%, #8a8a8a 50%, #7a7a7a 100%);
+            background: url('drone.png') center center no-repeat;
+            background-size: cover;
         }
 
-        /* Flying drones in background */
-        .flying-drone {
-            position: absolute;
-            width: 80px;
-            opacity: 0.15;
-            filter: grayscale(100%);
-            pointer-events: none;
-        }
-
-        .flying-drone img {
-            width: 100%;
-        }
-
-        /* Main drone image container */
-        .drone-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .main-drone {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            position: relative;
-            z-index: 2;
-        }
+        /* Main drone is now the background */
 
         /* Active laser beams crossing the screen */
         .laser-container {
@@ -483,10 +455,6 @@
     <section class="hero" id="hero">
         <!-- Flying drones will be added by JS -->
         
-        <div class="drone-container">
-            <img src="drone.png" alt="$DRONE" class="main-drone">
-        </div>
-
         <!-- Crossing laser beams -->
         <div class="laser-container">
             <div class="laser laser-1"></div>
@@ -561,43 +529,6 @@
     </footer>
 
     <script>
-        // Create flying drones in background
-        const hero = document.getElementById('hero');
-        
-        function createFlyingDrone() {
-            const drone = document.createElement('div');
-            drone.className = 'flying-drone';
-            drone.innerHTML = '<img src="drone.png" alt="">';
-            
-            const size = 50 + Math.random() * 60;
-            drone.style.width = size + 'px';
-            drone.style.top = Math.random() * 80 + '%';
-            drone.style.left = '-100px';
-            
-            const duration = 12 + Math.random() * 10;
-            drone.style.transition = `left ${duration}s linear`;
-            
-            hero.appendChild(drone);
-            
-            // Start animation
-            setTimeout(() => {
-                drone.style.left = 'calc(100% + 100px)';
-            }, 100);
-            
-            // Remove after animation
-            setTimeout(() => {
-                drone.remove();
-            }, duration * 1000 + 200);
-        }
-
-        // Spawn drones periodically
-        setInterval(createFlyingDrone, 3000);
-        
-        // Initial drones
-        for (let i = 0; i < 3; i++) {
-            setTimeout(createFlyingDrone, i * 1000);
-        }
-
         // Music toggle
         const music = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
@@ -610,7 +541,6 @@
                 musicToggle.classList.remove('playing');
             } else {
                 music.play().catch(() => {
-                    // Audio might not be loaded
                     alert('Add an audio file to enable music! Edit the <audio> tag in the HTML.');
                 });
                 musicToggle.textContent = '🔊';
