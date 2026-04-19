@@ -24,11 +24,10 @@
             background-attachment: fixed;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
-            left: 20px;
-            top: 20px;
+            left: 15px;
+            top: 15px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -39,66 +38,65 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
             transition: all 0.2s ease;
         }
 
         .icon:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         .icon svg {
-            width: 40px;
-            height: 40px;
-            fill: #111;
+            width: 35px;
+            height: 35px;
+            fill: #fff;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
         }
 
         .icon .question {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #111;
+            color: #fff;
             font-family: Arial, sans-serif;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .icon span {
-            margin-top: 5px;
-            font-size: 11px;
-            color: #111;
+            margin-top: 4px;
+            font-size: 10px;
+            color: #fff;
             font-family: Arial, sans-serif;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
-        /* Music toggle */
-        .music-toggle {
+        .music-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
+            bottom: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: none;
             color: #fff;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .music-toggle:hover {
-            background: rgba(0, 0, 0, 0.6);
+        .music-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
             transform: scale(1.1);
         }
     </style>
 </head>
 <body>
-    <!-- Audio -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Sidebar Icons -->
     <div class="sidebar">
         <a href="https://x.com/DroneCoinX" class="icon" target="_blank">
             <svg viewBox="0 0 24 24">
@@ -113,24 +111,23 @@
         </a>
     </div>
 
-    <!-- Music Button -->
-    <button class="music-toggle" id="musicToggle">🔇</button>
+    <button class="music-btn" id="musicBtn">🔇</button>
 
     <script>
         const music = document.getElementById('bgMusic');
-        const toggle = document.getElementById('musicToggle');
+        const btn = document.getElementById('musicBtn');
         let playing = false;
 
-        toggle.addEventListener('click', () => {
+        btn.onclick = () => {
             if (playing) {
                 music.pause();
-                toggle.textContent = '🔇';
+                btn.textContent = '🔇';
             } else {
                 music.play();
-                toggle.textContent = '🔊';
+                btn.textContent = '🔊';
             }
             playing = !playing;
-        });
+        };
     </script>
 </body>
 </html>
