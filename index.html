@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$DRONE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,148 +11,63 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            font-family: 'Patrick Hand', cursive;
-            min-height: 200vh;
             background-image: url('drone.png');
-            background-size: contain;
-            background-position: center top;
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-color: #888;
         }
 
-        /* Custom drone cursor */
-        html {
-            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, auto;
-        }
-
-        a, button {
-            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, pointer;
-        }
-
-        /* Desktop icon buttons - top left */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 20px;
             top: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            z-index: 100;
+            gap: 20px;
         }
 
-        .icon-btn {
+        .icon {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
             text-decoration: none;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
 
-        .icon-btn:hover {
-            background: rgba(255,255,255,0.15);
+        .icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
         }
 
-        .icon-btn .icon {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon-btn svg {
+        .icon svg {
             width: 40px;
             height: 40px;
-            fill: #1a1a1a;
+            fill: #111;
         }
 
-        .icon-btn .question-icon {
-            font-family: 'Caveat', cursive;
-            font-size: 2.5rem;
+        .icon .question {
+            font-size: 2.2rem;
             font-weight: bold;
-            color: #1a1a1a;
-        }
-
-        .icon-btn .label {
-            font-size: 0.75rem;
-            color: #1a1a1a;
+            color: #111;
             font-family: Arial, sans-serif;
         }
 
-        /* Laser beams */
-        .laser-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
-            overflow: hidden;
-        }
-
-        .laser {
-            position: absolute;
-            height: 3px;
-            width: 150%;
-            background: linear-gradient(90deg, transparent, #ff3333 20%, #ff6666 50%, #ff3333 80%, transparent);
-            box-shadow: 
-                0 0 10px #ff3333,
-                0 0 20px #ff3333,
-                0 0 40px #ff0000;
-        }
-
-        .laser-1 {
-            top: 25%;
-            left: -25%;
-            transform: rotate(20deg);
-            animation: sweep1 4s ease-in-out infinite;
-        }
-
-        .laser-2 {
-            top: 55%;
-            left: -25%;
-            transform: rotate(-15deg);
-            animation: sweep2 5s ease-in-out infinite;
-        }
-
-        .laser-3 {
-            top: 40%;
-            left: -25%;
-            transform: rotate(35deg);
-            animation: sweep3 3.5s ease-in-out infinite;
-        }
-
-        .laser-4 {
-            top: 70%;
-            left: -25%;
-            transform: rotate(-25deg);
-            animation: sweep4 4.5s ease-in-out infinite;
-        }
-
-        @keyframes sweep1 {
-            0%, 100% { transform: rotate(20deg) translateX(-10%); opacity: 0.8; }
-            50% { transform: rotate(20deg) translateX(20%); opacity: 1; }
-        }
-
-        @keyframes sweep2 {
-            0%, 100% { transform: rotate(-15deg) translateX(15%); opacity: 1; }
-            50% { transform: rotate(-15deg) translateX(-15%); opacity: 0.7; }
-        }
-
-        @keyframes sweep3 {
-            0%, 100% { transform: rotate(35deg) translateX(-5%); opacity: 0.6; }
-            50% { transform: rotate(35deg) translateX(25%); opacity: 1; }
-        }
-
-        @keyframes sweep4 {
-            0%, 100% { transform: rotate(-25deg) translateX(20%); opacity: 0.9; }
-            50% { transform: rotate(-25deg) translateX(-10%); opacity: 0.6; }
+        .icon span {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #111;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
         }
 
         /* Music toggle */
@@ -161,269 +75,61 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid #fff;
+            background: rgba(0, 0, 0, 0.4);
+            border: none;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .music-toggle:hover {
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.6);
             transform: scale(1.1);
-        }
-
-        /* Spacer for first screen */
-        .hero-spacer {
-            height: 100vh;
-        }
-
-        /* Content below */
-        .content {
-            background: #7a7a7a;
-            padding: 5rem 2rem;
-        }
-
-        .section {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Caveat', cursive;
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #1a1a1a;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: #888;
-            border: 2px solid #1a1a1a;
-            border-radius: 5px 15px 10px 20px;
-            padding: 2rem;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: rotate(-1deg) translateY(-5px);
-        }
-
-        .card:nth-child(even):hover {
-            transform: rotate(1deg) translateY(-5px);
-        }
-
-        .card-number {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
-            color: #cc3333;
-            opacity: 0.5;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-        }
-
-        .card h3 {
-            font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .card p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        /* Trenches */
-        .trenches {
-            background: #5a5a5a;
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-
-        .trenches h2 {
-            font-family: 'Caveat', cursive;
-            font-size: 4rem;
-            color: #ddd;
-            margin-bottom: 1rem;
-        }
-
-        .trenches h2 span {
-            color: #cc3333;
-        }
-
-        .trenches p {
-            font-size: 1.3rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
-            color: #aaa;
-        }
-
-        .ca-box {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 3px dashed #aaa;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            transform: rotate(-1deg);
-        }
-
-        .ca-box span {
-            font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
-            color: #ddd;
-        }
-
-        /* Footer */
-        footer {
-            background: #4a4a4a;
-            padding: 2rem;
-            text-align: center;
-            color: #888;
-        }
-
-        footer a {
-            color: #aaa;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-family: 'Caveat', cursive;
-            font-size: 1.2rem;
-        }
-
-        footer a:hover {
-            color: #cc3333;
-        }
-
-        @media (max-width: 768px) {
-            .section-title { font-size: 2.5rem; }
-            .trenches h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
-
 <body>
-    <!-- Background Music -->
+    <!-- Audio -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
-    
-    <button class="music-toggle" id="musicToggle">🔇</button>
 
-    <!-- Desktop Icons - Top Left -->
+    <!-- Sidebar Icons -->
     <div class="sidebar">
-        <a href="https://x.com/DroneCoinX" class="icon-btn" target="_blank">
-            <div class="icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </div>
-            <span class="label">X</span>
+        <a href="https://x.com/DroneCoinX" class="icon" target="_blank">
+            <svg viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span>X</span>
         </a>
-        
-        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="icon-btn" target="_blank">
-            <div class="icon">
-                <span class="question-icon">?</span>
-            </div>
-            <span class="label">wtf is this</span>
+
+        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="icon" target="_blank">
+            <div class="question">?</div>
+            <span>wtf is this</span>
         </a>
     </div>
 
-    <!-- Laser Beams -->
-    <div class="laser-container">
-        <div class="laser laser-1"></div>
-        <div class="laser laser-2"></div>
-        <div class="laser laser-3"></div>
-        <div class="laser laser-4"></div>
-    </div>
-
-    <!-- Hero spacer (first screen is just the background image) -->
-    <div class="hero-spacer"></div>
-
-    <!-- Content -->
-    <div class="content">
-        <section class="section">
-            <h2 class="section-title">~ open your eyes ~</h2>
-
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-number">01</div>
-                    <h3>they control us</h3>
-                    <p>the signal is everywhere. in your phone. your tv. your feed. they beam it directly into your brain and you don't even know it. you think those are your thoughts? think again.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">02</div>
-                    <h3>we are all drones</h3>
-                    <p>look around you. everyone scrolling. everyone consuming. nobody questioning. we're all plugged into the matrix and most people don't even want to wake up. that's how they want it.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">03</div>
-                    <h3>the truth is out there</h3>
-                    <p>why do you think they call it "programming"? television programming. social programming. they've been telling us the whole time. hiding it in plain sight. the glasses see everything.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">04</div>
-                    <h3>wake up</h3>
-                    <p>$DRONE is not just a coin. it's a message. a symbol. proof that some of us see through the lies. the question is... do you? or are you still asleep?</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Trenches -->
-    <section class="trenches">
-        <h2>the <span>awakening</span> has begun</h2>
-        <p>
-            they don't want you to see this. they don't want you here. 
-            but you found it anyway. $DRONE is live. the signal can't be stopped.
-            join the ones who see. or stay asleep forever.
-        </p>
-        <div class="ca-box">
-            <span>CA coming soon</span>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <a href="#">dexscreener</a>
-        <a href="#">telegram</a>
-        <a href="#">contract</a>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">$DRONE 2025 · the truth is out there · trust no one</p>
-    </footer>
+    <!-- Music Button -->
+    <button class="music-toggle" id="musicToggle">🔇</button>
 
     <script>
         const music = document.getElementById('bgMusic');
-        const musicToggle = document.getElementById('musicToggle');
-        let isPlaying = false;
+        const toggle = document.getElementById('musicToggle');
+        let playing = false;
 
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) {
+        toggle.addEventListener('click', () => {
+            if (playing) {
                 music.pause();
-                musicToggle.textContent = '🔇';
+                toggle.textContent = '🔇';
             } else {
                 music.play();
-                musicToggle.textContent = '🔊';
+                toggle.textContent = '🔊';
             }
-            isPlaying = !isPlaying;
+            playing = !playing;
         });
     </script>
 </body>
