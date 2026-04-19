@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$DRONE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom drone cursor */
+        html {
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, auto;
+        }
+
+        a, button {
+            cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, pointer;
+        }
+
+        body {
+            font-family: 'Patrick Hand', cursive;
+            background: #888;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Background music button */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            background: rgba(0,0,0,0.8);
+            transform: scale(1.1);
+        }
+
+        .music-toggle.playing {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+        }
+
+        /* Left sidebar buttons - desktop icon style */
+        .side-buttons {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .side-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .side-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .side-btn .icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .side-btn svg {
+            width: 40px;
+            height: 40px;
+            fill: #1a1a1a;
+        }
+
+        .side-btn.question .icon {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            font-family: 'Caveat', cursive;
+            font-weight: bold;
+        }
+
+        .side-btn .label {
+            font-size: 0.75rem;
+            color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+
+        /* Hero section - full screen */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #6a6a6a 0%, #8a8a8a 50%, #7a7a7a 100%);
+        }
+
+        /* Flying drones in background */
+        .flying-drone {
+            position: absolute;
+            width: 80px;
+            opacity: 0.15;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
+        .flying-drone img {
+            width: 100%;
+        }
+
+        /* Main drone image container */
+        .drone-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-drone {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Active laser beams crossing the screen */
+        .laser-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .laser {
+            position: absolute;
+            height: 3px;
+            width: 150%;
+            background: linear-gradient(90deg, transparent, #ff3333 20%, #ff6666 50%, #ff3333 80%, transparent);
+            box-shadow: 
+                0 0 10px #ff3333,
+                0 0 20px #ff3333,
+                0 0 40px #ff0000;
+        }
+
+        .laser-1 {
+            top: 25%;
+            left: -25%;
+            transform: rotate(20deg);
+            animation: sweep1 4s ease-in-out infinite;
+        }
+
+        .laser-2 {
+            top: 55%;
+            left: -25%;
+            transform: rotate(-15deg);
+            animation: sweep2 5s ease-in-out infinite;
+        }
+
+        .laser-3 {
+            top: 40%;
+            left: -25%;
+            transform: rotate(35deg);
+            animation: sweep3 3.5s ease-in-out infinite;
+        }
+
+        .laser-4 {
+            top: 70%;
+            left: -25%;
+            transform: rotate(-25deg);
+            animation: sweep4 4.5s ease-in-out infinite;
+        }
+
+        @keyframes sweep1 {
+            0%, 100% { 
+                transform: rotate(20deg) translateX(-10%);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: rotate(20deg) translateX(20%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sweep2 {
+            0%, 100% { 
+                transform: rotate(-15deg) translateX(15%);
+                opacity: 1;
+            }
+            50% { 
+                transform: rotate(-15deg) translateX(-15%);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes sweep3 {
+            0%, 100% { 
+                transform: rotate(35deg) translateX(-5%);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: rotate(35deg) translateX(25%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sweep4 {
+            0%, 100% { 
+                transform: rotate(-25deg) translateX(20%);
+                opacity: 0.9;
+            }
+            50% { 
+                transform: rotate(-25deg) translateX(-10%);
+                opacity: 0.6;
+            }
+        }
+
+        /* Title overlay */
+        .title-overlay {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .title-overlay h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 5rem;
+            color: #1a1a1a;
+            text-shadow: 2px 2px 0 #aaa;
+            margin-bottom: 0.5rem;
+        }
+
+        .title-overlay h1 span {
+            color: #cc3333;
+        }
+
+        .title-overlay p {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: #333;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Content sections */
+        .content {
+            background: #7a7a7a;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1a1a1a;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #888;
+            border: 2px solid #1a1a1a;
+            border-radius: 5px 15px 10px 20px;
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: rotate(-1deg) translateY(-5px);
+        }
+
+        .card:nth-child(even):hover {
+            transform: rotate(1deg) translateY(-5px);
+        }
+
+        .card-number {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            color: #cc3333;
+            opacity: 0.5;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* Trenches section */
+        .trenches {
+            background: #5a5a5a;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .trenches h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .trenches h2 span {
+            color: #cc3333;
+        }
+
+        .trenches p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            color: #aaa;
+        }
+
+        .ca-box {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 3px dashed #aaa;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            transform: rotate(-1deg);
+        }
+
+        .ca-box span {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: #ddd;
+        }
+
+        /* Footer */
+        footer {
+            background: #4a4a4a;
+            padding: 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+        }
+
+        footer a:hover {
+            color: #cc3333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .drone-container {
+                width: 300px;
+                height: 300px;
+            }
+            .title-overlay h1 {
+                font-size: 3rem;
+            }
+            .side-buttons {
+                left: 10px;
+            }
+            .side-btn {
+                width: 40px;
+                height: 40px;
+            }
+            .laser {
+                width: 150px;
+                top: 50px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music (add your own audio file) -->
+    <audio id="bgMusic" loop>
+        <!-- Add your audio source here like: <source src="music.mp3" type="audio/mpeg"> -->
+    </audio>
+    
+    <button class="music-toggle" id="musicToggle" title="Toggle Music">
+        🔇
+    </button>
+
+    <!-- Side Buttons - Desktop Icon Style -->
+    <div class="side-buttons">
+        <!-- X (Twitter) Button -->
+        <a href="https://x.com/DroneCoinX" class="side-btn" target="_blank">
+            <div class="icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </div>
+            <span class="label">X</span>
+        </a>
+        
+        <!-- Question Mark Button -->
+        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="side-btn question" target="_blank">
+            <div class="icon">?</div>
+            <span class="label">wtf is this</span>
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <!-- Flying drones will be added by JS -->
+        
+        <div class="drone-container">
+            <img src="drone.png" alt="$DRONE" class="main-drone">
+        </div>
+
+        <!-- Crossing laser beams -->
+        <div class="laser-container">
+            <div class="laser laser-1"></div>
+            <div class="laser laser-2"></div>
+            <div class="laser laser-3"></div>
+            <div class="laser laser-4"></div>
+        </div>
+
+        <div class="title-overlay">
+            <h1><span>$</span>DRONE</h1>
+            <p>are you even real?</p>
+        </div>
+
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <div class="content">
+        <section class="section">
+            <h2 class="section-title">~ what even is a drone ~</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-number">01</div>
+                    <h3>the psyop is real</h3>
+                    <p>you know that friend who believes everything they see on tv? yeah. that's a drone. mindless sheep programmed by the algorithm. no original thoughts just vibes they downloaded from the feed.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">02</div>
+                    <h3>gen z knows</h3>
+                    <p>"bro you're such a drone" is the new wake up call. the term is spreading. everyone's using it. calling out npcs left and right. if you're not aware you're probably a drone tbh.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">03</div>
+                    <h3>the glasses & the stare</h3>
+                    <p>look at him. the glasses. the blank expression. the literal drone on his head beaming signals into his brain. that's the wojak. that's the meme. that's probably you rn reading this.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">04</div>
+                    <h3>now its a coin</h3>
+                    <p>because why not. meme culture meets crypto. $DRONE is for the self aware. or the ones who wanna pretend they are. either way we're all in the trenches together.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Trenches Section -->
+    <section class="trenches">
+        <h2>welcome to the <span>trenches</span></h2>
+        <p>
+            this is where it goes down. $DRONE is live. available to bid. 
+            you're either in or you're ngmi. no in between.
+        </p>
+        <div class="ca-box">
+            <span>CA coming soon</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">dexscreener</a>
+        <a href="#">telegram</a>
+        <a href="#">contract</a>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">$DRONE 2025 · not financial advice</p>
+    </footer>
+
+    <script>
+        // Create flying drones in background
+        const hero = document.getElementById('hero');
+        
+        function createFlyingDrone() {
+            const drone = document.createElement('div');
+            drone.className = 'flying-drone';
+            drone.innerHTML = '<img src="drone.png" alt="">';
+            
+            const size = 50 + Math.random() * 60;
+            drone.style.width = size + 'px';
+            drone.style.top = Math.random() * 80 + '%';
+            drone.style.left = '-100px';
+            
+            const duration = 12 + Math.random() * 10;
+            drone.style.transition = `left ${duration}s linear`;
+            
+            hero.appendChild(drone);
+            
+            // Start animation
+            setTimeout(() => {
+                drone.style.left = 'calc(100% + 100px)';
+            }, 100);
+            
+            // Remove after animation
+            setTimeout(() => {
+                drone.remove();
+            }, duration * 1000 + 200);
+        }
+
+        // Spawn drones periodically
+        setInterval(createFlyingDrone, 3000);
+        
+        // Initial drones
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createFlyingDrone, i * 1000);
+        }
+
+        // Music toggle
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.textContent = '🔇';
+                musicToggle.classList.remove('playing');
+            } else {
+                music.play().catch(() => {
+                    // Audio might not be loaded
+                    alert('Add an audio file to enable music! Edit the <audio> tag in the HTML.');
+                });
+                musicToggle.textContent = '🔊';
+                musicToggle.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Smooth scroll
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
