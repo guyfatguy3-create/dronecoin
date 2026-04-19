@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,17 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-family: 'Patrick Hand', cursive;
+            min-height: 200vh;
+            background-image: url('drone.png');
+            background-size: contain;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #888;
+        }
+
         /* Custom drone cursor */
         html {
             cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, auto;
@@ -21,75 +32,33 @@
             cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 64"><ellipse cx="32" cy="28" rx="18" ry="8" fill="%23555" stroke="%23333" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="%23444"/><circle cx="52" cy="28" r="6" fill="%23444"/><ellipse cx="12" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><ellipse cx="52" cy="28" rx="8" ry="3" fill="%23777" opacity="0.5"/><circle cx="32" cy="45" r="12" fill="%23ddd" stroke="%23333" stroke-width="2"/><circle cx="28" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="36" cy="43" r="4" fill="%23333" stroke="%23222" stroke-width="1"/><circle cx="28" cy="43" r="1.5" fill="%23111"/><circle cx="36" cy="43" r="1.5" fill="%23111"/><path d="M28 50 Q32 53 36 50" stroke="%23333" stroke-width="1.5" fill="none"/><circle cx="32" cy="20" r="3" fill="%23ff3333"/><line x1="32" y1="20" x2="50" y2="8" stroke="%23ff3333" stroke-width="2"/></svg>') 16 16, pointer;
         }
 
-        body {
-            font-family: 'Patrick Hand', cursive;
-            background: #888;
-            color: #1a1a1a;
-            overflow-x: hidden;
-        }
-
-        /* Background music button */
-        .music-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid #fff;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .music-toggle:hover {
-            background: rgba(0,0,0,0.8);
-            transform: scale(1.1);
-        }
-
-        .music-toggle.playing {
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
-        }
-
-        /* Left sidebar buttons - desktop icon style */
-        .side-buttons {
+        /* Desktop icon buttons - top left */
+        .sidebar {
             position: fixed;
             left: 20px;
             top: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             z-index: 100;
         }
 
-        .side-btn {
+        .icon-btn {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            gap: 5px;
             text-decoration: none;
             padding: 8px;
             border-radius: 8px;
+            transition: background 0.2s;
         }
 
-        .side-btn:hover {
-            background: rgba(255,255,255,0.1);
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.15);
         }
 
-        .side-btn .icon {
+        .icon-btn .icon {
             width: 45px;
             height: 45px;
             display: flex;
@@ -97,49 +66,34 @@
             justify-content: center;
         }
 
-        .side-btn svg {
+        .icon-btn svg {
             width: 40px;
             height: 40px;
             fill: #1a1a1a;
         }
 
-        .side-btn.question .icon {
-            font-size: 2.5rem;
-            color: #1a1a1a;
+        .icon-btn .question-icon {
             font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
             font-weight: bold;
+            color: #1a1a1a;
         }
 
-        .side-btn .label {
+        .icon-btn .label {
             font-size: 0.75rem;
             color: #1a1a1a;
             font-family: Arial, sans-serif;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
         }
 
-        /* Hero section - full screen */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            background: url('drone.png') center center no-repeat;
-            background-size: cover;
-        }
-
-        /* Main drone is now the background */
-
-        /* Active laser beams crossing the screen */
+        /* Laser beams */
         .laser-container {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 50;
             overflow: hidden;
         }
 
@@ -183,102 +137,62 @@
         }
 
         @keyframes sweep1 {
-            0%, 100% { 
-                transform: rotate(20deg) translateX(-10%);
-                opacity: 0.8;
-            }
-            50% { 
-                transform: rotate(20deg) translateX(20%);
-                opacity: 1;
-            }
+            0%, 100% { transform: rotate(20deg) translateX(-10%); opacity: 0.8; }
+            50% { transform: rotate(20deg) translateX(20%); opacity: 1; }
         }
 
         @keyframes sweep2 {
-            0%, 100% { 
-                transform: rotate(-15deg) translateX(15%);
-                opacity: 1;
-            }
-            50% { 
-                transform: rotate(-15deg) translateX(-15%);
-                opacity: 0.7;
-            }
+            0%, 100% { transform: rotate(-15deg) translateX(15%); opacity: 1; }
+            50% { transform: rotate(-15deg) translateX(-15%); opacity: 0.7; }
         }
 
         @keyframes sweep3 {
-            0%, 100% { 
-                transform: rotate(35deg) translateX(-5%);
-                opacity: 0.6;
-            }
-            50% { 
-                transform: rotate(35deg) translateX(25%);
-                opacity: 1;
-            }
+            0%, 100% { transform: rotate(35deg) translateX(-5%); opacity: 0.6; }
+            50% { transform: rotate(35deg) translateX(25%); opacity: 1; }
         }
 
         @keyframes sweep4 {
-            0%, 100% { 
-                transform: rotate(-25deg) translateX(20%);
-                opacity: 0.9;
-            }
-            50% { 
-                transform: rotate(-25deg) translateX(-10%);
-                opacity: 0.6;
-            }
+            0%, 100% { transform: rotate(-25deg) translateX(20%); opacity: 0.9; }
+            50% { transform: rotate(-25deg) translateX(-10%); opacity: 0.6; }
         }
 
-        /* Title overlay */
-        .title-overlay {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-        }
-
-        .title-overlay h1 {
-            font-family: 'Caveat', cursive;
-            font-size: 5rem;
-            color: #1a1a1a;
-            text-shadow: 2px 2px 0 #aaa;
-            margin-bottom: 0.5rem;
-        }
-
-        .title-overlay h1 span {
-            color: #cc3333;
-        }
-
-        .title-overlay p {
-            font-size: 1.5rem;
-            color: #333;
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
+        /* Music toggle */
+        .music-toggle {
+            position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s ease-in-out infinite;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
-            stroke: #333;
+        .music-toggle:hover {
+            background: rgba(0,0,0,0.8);
+            transform: scale(1.1);
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
+        /* Spacer for first screen */
+        .hero-spacer {
+            height: 100vh;
         }
 
-        /* Content sections */
+        /* Content below */
         .content {
             background: #7a7a7a;
+            padding: 5rem 2rem;
         }
 
         .section {
-            padding: 5rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -291,7 +205,6 @@
             color: #1a1a1a;
         }
 
-        /* Cards */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -337,7 +250,7 @@
             color: #333;
         }
 
-        /* Trenches section */
+        /* Trenches */
         .trenches {
             background: #5a5a5a;
             padding: 5rem 2rem;
@@ -398,122 +311,91 @@
             color: #cc3333;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .drone-container {
-                width: 300px;
-                height: 300px;
-            }
-            .title-overlay h1 {
-                font-size: 3rem;
-            }
-            .side-buttons {
-                left: 10px;
-            }
-            .side-btn {
-                width: 40px;
-                height: 40px;
-            }
-            .laser {
-                width: 150px;
-                top: 50px;
-                right: 20px;
-            }
+            .section-title { font-size: 2.5rem; }
+            .trenches h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
+
 <body>
-    <!-- Background Music (add your own audio file) -->
+    <!-- Background Music -->
     <audio id="bgMusic" loop>
-        <!-- Add your audio source here like: <source src="music.mp3" type="audio/mpeg"> -->
+        <source src="music.mp3" type="audio/mpeg">
     </audio>
     
-    <button class="music-toggle" id="musicToggle" title="Toggle Music">
-        🔇
-    </button>
+    <button class="music-toggle" id="musicToggle">🔇</button>
 
-    <!-- Side Buttons - Desktop Icon Style -->
-    <div class="side-buttons">
-        <!-- X (Twitter) Button -->
-        <a href="https://x.com/DroneCoinX" class="side-btn" target="_blank">
+    <!-- Desktop Icons - Top Left -->
+    <div class="sidebar">
+        <a href="https://x.com/DroneCoinX" class="icon-btn" target="_blank">
             <div class="icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
             </div>
             <span class="label">X</span>
         </a>
         
-        <!-- Question Mark Button -->
-        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="side-btn question" target="_blank">
-            <div class="icon">?</div>
+        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="icon-btn" target="_blank">
+            <div class="icon">
+                <span class="question-icon">?</span>
+            </div>
             <span class="label">wtf is this</span>
         </a>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <!-- Flying drones will be added by JS -->
-        
-        <!-- Crossing laser beams -->
-        <div class="laser-container">
-            <div class="laser laser-1"></div>
-            <div class="laser laser-2"></div>
-            <div class="laser laser-3"></div>
-            <div class="laser laser-4"></div>
-        </div>
+    <!-- Laser Beams -->
+    <div class="laser-container">
+        <div class="laser laser-1"></div>
+        <div class="laser laser-2"></div>
+        <div class="laser laser-3"></div>
+        <div class="laser laser-4"></div>
+    </div>
 
-        <div class="title-overlay">
-            <h1><span>$</span>DRONE</h1>
-            <p>are you even real?</p>
-        </div>
-
-        <div class="scroll-indicator">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-        </div>
-    </section>
+    <!-- Hero spacer (first screen is just the background image) -->
+    <div class="hero-spacer"></div>
 
     <!-- Content -->
     <div class="content">
         <section class="section">
-            <h2 class="section-title">~ what even is a drone ~</h2>
+            <h2 class="section-title">~ open your eyes ~</h2>
 
             <div class="card-grid">
                 <div class="card">
                     <div class="card-number">01</div>
-                    <h3>the psyop is real</h3>
-                    <p>you know that friend who believes everything they see on tv? yeah. that's a drone. mindless sheep programmed by the algorithm. no original thoughts just vibes they downloaded from the feed.</p>
+                    <h3>they control us</h3>
+                    <p>the signal is everywhere. in your phone. your tv. your feed. they beam it directly into your brain and you don't even know it. you think those are your thoughts? think again.</p>
                 </div>
 
                 <div class="card">
                     <div class="card-number">02</div>
-                    <h3>gen z knows</h3>
-                    <p>"bro you're such a drone" is the new wake up call. the term is spreading. everyone's using it. calling out npcs left and right. if you're not aware you're probably a drone tbh.</p>
+                    <h3>we are all drones</h3>
+                    <p>look around you. everyone scrolling. everyone consuming. nobody questioning. we're all plugged into the matrix and most people don't even want to wake up. that's how they want it.</p>
                 </div>
 
                 <div class="card">
                     <div class="card-number">03</div>
-                    <h3>the glasses & the stare</h3>
-                    <p>look at him. the glasses. the blank expression. the literal drone on his head beaming signals into his brain. that's the wojak. that's the meme. that's probably you rn reading this.</p>
+                    <h3>the truth is out there</h3>
+                    <p>why do you think they call it "programming"? television programming. social programming. they've been telling us the whole time. hiding it in plain sight. the glasses see everything.</p>
                 </div>
 
                 <div class="card">
                     <div class="card-number">04</div>
-                    <h3>now its a coin</h3>
-                    <p>because why not. meme culture meets crypto. $DRONE is for the self aware. or the ones who wanna pretend they are. either way we're all in the trenches together.</p>
+                    <h3>wake up</h3>
+                    <p>$DRONE is not just a coin. it's a message. a symbol. proof that some of us see through the lies. the question is... do you? or are you still asleep?</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Trenches Section -->
+    <!-- Trenches -->
     <section class="trenches">
-        <h2>welcome to the <span>trenches</span></h2>
+        <h2>the <span>awakening</span> has begun</h2>
         <p>
-            this is where it goes down. $DRONE is live. available to bid. 
-            you're either in or you're ngmi. no in between.
+            they don't want you to see this. they don't want you here. 
+            but you found it anyway. $DRONE is live. the signal can't be stopped.
+            join the ones who see. or stay asleep forever.
         </p>
         <div class="ca-box">
             <span>CA coming soon</span>
@@ -525,11 +407,10 @@
         <a href="#">dexscreener</a>
         <a href="#">telegram</a>
         <a href="#">contract</a>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">$DRONE 2025 · not financial advice</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">$DRONE 2025 · the truth is out there · trust no one</p>
     </footer>
 
     <script>
-        // Music toggle
         const music = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
         let isPlaying = false;
@@ -538,20 +419,11 @@
             if (isPlaying) {
                 music.pause();
                 musicToggle.textContent = '🔇';
-                musicToggle.classList.remove('playing');
             } else {
-                music.play().catch(() => {
-                    alert('Add an audio file to enable music! Edit the <audio> tag in the HTML.');
-                });
+                music.play();
                 musicToggle.textContent = '🔊';
-                musicToggle.classList.add('playing');
             }
             isPlaying = !isPlaying;
-        });
-
-        // Smooth scroll
-        document.querySelector('.scroll-indicator').addEventListener('click', () => {
-            document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
 </body>
