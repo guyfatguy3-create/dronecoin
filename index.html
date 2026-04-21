@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$DRONE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Creepster&display=swap" rel="stylesheet">
+    <title>$DELUSIONAL</title>
     <style>
         * {
             margin: 0;
@@ -12,303 +11,22 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Courier Prime', monospace;
-            background-color: #1a1a1a;
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
         }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background-image: url('drone.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            position: relative;
-        }
-
-        /* Sidebar */
-        .sidebar {
+        /* Video Background */
+        #bgVideo {
             position: fixed;
-            left: 15px;
-            top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 100;
-        }
-
-        .icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .icon:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.1);
-        }
-
-        .icon svg {
-            width: 35px;
-            height: 35px;
-            fill: #fff;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
-        }
-
-        .icon .question {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .icon span {
-            margin-top: 4px;
-            font-size: 10px;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        /* Title */
-        .title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .title h1 {
-            font-family: 'Creepster', cursive;
-            font-size: 6rem;
-            color: #cc0000;
-            text-shadow: 0 0 20px rgba(204, 0, 0, 0.5), 2px 2px 0 #000;
-            letter-spacing: 10px;
-        }
-
-        /* Speech Bubbles */
-        .bubble {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #cc0000;
-            padding: 12px 18px;
-            border-radius: 8px;
-            color: #ccc;
-            font-size: 0.85rem;
-            max-width: 200px;
-            text-align: center;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .bubble-1 {
-            top: 15%;
-            right: 10%;
-            animation-delay: 0s;
-        }
-
-        .bubble-2 {
-            top: 25%;
-            left: 8%;
-            animation-delay: 1s;
-        }
-
-        .bubble-3 {
-            bottom: 30%;
-            right: 8%;
-            animation-delay: 2s;
-        }
-
-        .bubble-4 {
-            bottom: 25%;
-            left: 10%;
-            animation-delay: 0.5s;
-        }
-
-        .bubble-5 {
-            top: 40%;
-            right: 5%;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            color: #fff;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        .scroll-indicator span {
-            display: block;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
-
-        .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
-            stroke: #fff;
-            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8));
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
-        }
-
-        /* Content Section */
-        .content {
-            background: #111;
-            padding: 5rem 2rem;
-        }
-
-        .section {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #cc0000;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-left: 3px solid #cc0000;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: #cc0000;
-            transform: translateX(5px);
-        }
-
-        .card-number {
-            font-size: 2.5rem;
-            color: #cc0000;
-            opacity: 0.3;
-            margin-bottom: 0.5rem;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #888;
-        }
-
-        /* Trenches Section */
-        .trenches {
-            background: #0a0a0a;
-            padding: 5rem 2rem;
-            text-align: center;
-            border-top: 1px solid #222;
-        }
-
-        .trenches h2 {
-            font-size: 3rem;
-            color: #fff;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-
-        .trenches h2 span {
-            color: #cc0000;
-        }
-
-        .trenches p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
-            color: #666;
-        }
-
-        .ca-box {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 2px dashed #cc0000;
-            background: rgba(204, 0, 0, 0.1);
-        }
-
-        .ca-box span {
-            font-size: 1.2rem;
-            color: #cc0000;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        /* Footer */
-        footer {
-            background: #050505;
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        footer a {
-            color: #555;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: color 0.2s;
-        }
-
-        footer a:hover {
-            color: #cc0000;
-        }
-
-        footer p {
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            color: #333;
-        }
-
-        @media (max-width: 768px) {
-            .title h1 { font-size: 3.5rem; }
-            .bubble { font-size: 0.75rem; max-width: 150px; padding: 8px 12px; }
-            .section-title { font-size: 1.8rem; }
-            .trenches h2 { font-size: 2rem; }
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         /* Enter Screen */
@@ -327,20 +45,138 @@
         }
 
         .enter-text {
-            font-family: 'Courier Prime', monospace;
-            font-size: 1.5rem;
-            color: #cc0000;
+            font-size: 1.2rem;
+            color: #888;
             letter-spacing: 5px;
+            text-transform: uppercase;
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.4; }
         }
 
         .enter-screen.hidden {
             display: none;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            z-index: 100;
+        }
+
+        .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            padding: 20px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .icon:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: scale(1.05);
+        }
+
+        .icon svg {
+            width: 100px;
+            height: 100px;
+        }
+
+        .icon.tiktok svg {
+            fill: #ff0050;
+        }
+
+        .icon.x-btn svg {
+            fill: #fff;
+        }
+
+        .icon span {
+            margin-top: 10px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* PumpFun Button */
+        .pumpfun-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .pumpfun-btn a {
+            display: block;
+            padding: 25px 80px;
+            background: #00d179;
+            color: #000;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        .pumpfun-btn a:hover {
+            background: #00e887;
+        }
+
+        /* Learn More Button */
+        .learn-more {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .learn-more a {
+            display: block;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .learn-more a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* CA Coming Soon */
+        .ca-text {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            z-index: 100;
         }
     </style>
 </head>
@@ -349,108 +185,55 @@
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
+    <video id="bgVideo" loop muted playsinline>
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
     <!-- Click to Enter -->
     <div class="enter-screen" id="enterScreen">
-        <div class="enter-text">CLICK TO ENTER</div>
+        <div class="enter-text">click to enter</div>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="https://x.com/DroneCoinX" class="icon" target="_blank">
+        <a href="#" class="icon tiktok" id="tiktokLink" target="_blank">
+            <svg viewBox="0 0 48 48">
+                <path d="M34.1,10.5c-2.3-1.5-3.9-4-4.1-6.8l0-0.7h-6.2l0,26.4c0,3.6-2.9,6.5-6.5,6.5c-3.6,0-6.5-2.9-6.5-6.5
+                c0-3.6,2.9-6.5,6.5-6.5c0.7,0,1.3,0.1,1.9,0.3v-6.3c-0.6-0.1-1.3-0.1-1.9-0.1c-7,0-12.7,5.7-12.7,12.7s5.7,12.7,12.7,12.7
+                s12.7-5.7,12.7-12.7V18c2.5,1.8,5.5,2.8,8.8,2.8v-6.2C36.9,14.6,35.2,12.9,34.1,10.5z"/>
+            </svg>
+            <span>TikTok</span>
+        </a>
+
+        <a href="https://x.com/delus1onalpump" class="icon x-btn" target="_blank">
             <svg viewBox="0 0 24 24">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
             <span>X</span>
         </a>
-
-        <a href="https://www.urbandictionary.com/define.php?term=Drone" class="icon" target="_blank">
-            <div class="question">?</div>
-            <span>wtf is this</span>
-        </a>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="title">
-            <h1>$DRONE</h1>
-        </div>
-
-        <!-- Speech Bubbles -->
-        <div class="bubble bubble-1">"do not question. just comply."</div>
-        <div class="bubble bubble-2">"returning to normal thinking"</div>
-        <div class="bubble bubble-3">"if everyone agrees, it must be true."</div>
-        <div class="bubble bubble-4">"wake. work. sleep. repeat."</div>
-        <div class="bubble bubble-5">"deviation is unnecessary."</div>
-
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <span>SCROLL</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-        </div>
-    </section>
-
-    <!-- Content -->
-    <div class="content">
-        <section class="section">
-            <h2 class="section-title">// open your eyes //</h2>
-
-            <div class="card-grid">
-                <div class="card">
-                    <div class="card-number">01</div>
-                    <h3>they control us</h3>
-                    <p>the signal is everywhere. in your phone. your tv. your feed. they beam it directly into your brain and you don't even know it. you think those are your thoughts? think again.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">02</div>
-                    <h3>we are all drones</h3>
-                    <p>look around you. everyone scrolling. everyone consuming. nobody questioning. we're all plugged into the matrix and most people don't even want to wake up. that's how they want it.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">03</div>
-                    <h3>the truth is out there</h3>
-                    <p>why do you think they call it "programming"? television programming. social programming. they've been telling us the whole time. hiding it in plain sight. the glasses see everything.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-number">04</div>
-                    <h3>wake up</h3>
-                    <p>$DRONE is not just a coin. it's a message. a symbol. proof that some of us see through the lies. the question is... do you? or are you still asleep?</p>
-                </div>
-            </div>
-        </section>
+    <!-- Bottom Button -->
+    <div class="pumpfun-btn">
+        <a href="#" target="_blank">$DELUSIONAL</a>
     </div>
 
-    <!-- Trenches -->
-    <section class="trenches">
-        <h2>the <span>awakening</span> has begun</h2>
-        <p>
-            they don't want you to see this. they don't want you here. 
-            but you found it anyway. $DRONE is live. the signal can't be stopped.
-            join the ones who see. or stay asleep forever.
-        </p>
-        <div class="ca-box">
-            <span>CA coming soon</span>
-        </div>
-    </section>
+    <!-- Learn More -->
+    <div class="learn-more">
+        <a href="about.html">learn more</a>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <a href="#">dexscreener</a>
-        <a href="#">telegram</a>
-        <a href="#">contract</a>
-        <p>$DRONE 2025 · the truth is out there · trust no one</p>
-    </footer>
+    <!-- CA Coming Soon -->
+    <div class="ca-text">CA : Coming Soon</div>
 
     <script>
         const enterScreen = document.getElementById('enterScreen');
         const music = document.getElementById('bgMusic');
+        const video = document.getElementById('bgVideo');
 
         enterScreen.onclick = () => {
             music.play();
+            video.play();
             enterScreen.classList.add('hidden');
         };
     </script>
